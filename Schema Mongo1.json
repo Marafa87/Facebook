@@ -1,3 +1,4 @@
+"Définition du schema mongo Db"
 db.createCollection("Facebook", {
    validator: {
       $jsonSchema: {
