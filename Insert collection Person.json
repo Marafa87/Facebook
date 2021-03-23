@@ -1,0 +1,7 @@
+//Insertion dans la collection Person
+db.Person.insert({"Name": "Haladou Issa", "Surname": "Ali", "Email": "alimarafa87gmail.com", "Phonenumber": NumberInt(0642650388), "Password": "karateka87"});
+
+
+
+//Insertion de données dans la collection Page
+db.Page.insert({"NamePage": "Marafa Study Center", "NamePerson": "Haladou Issa", "Site": "www.alsone87.com"});
