@@ -5,3 +5,7 @@ db.Person.insert({"Name": "Haladou Issa", "Surname": "Ali", "Email": "alimarafa8
 
 //Insertion de données dans la collection Page
 db.Page.insert({"NamePage": "Marafa Study Center", "NamePerson": "Haladou Issa", "Site": "www.alsone87.com"});
+
+
+// Insertion de données dans la collection Group
+db.Group.insert({"NameGroup": "LebonCoin", "Visibilite": "PUBLIC", "NamePerson": "Haladou Issa"});
