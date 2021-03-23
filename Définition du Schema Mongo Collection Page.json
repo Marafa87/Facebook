@@ -1,0 +1,24 @@
+//Définition du schema mongo Db"
+
+db.createCollection("Page", {
+    validator: {
+       $jsonSchema: {
+          bsonType: "object",
+          required: ["NamePage", "NamePerson", "Site"],
+          properties: {
+            NamePage: {
+                bsonType: "string",
+                description: "must be a string and is required"
+             },
+             NamePerson: {
+                bsonType: "string",
+                description: "must be a string and is required"
+             },
+             Site: {
+                 bsonType: "string",
+                     description: "must be a string and is required"
+             }
+           }
+       }
+    }
+ })
