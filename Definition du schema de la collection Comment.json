@@ -1,0 +1,24 @@
+//Définition du schema de la collection comment mongo Db"
+
+db.createCollection("Comment", {
+    validator: {
+       $jsonSchema: {
+          bsonType: "object",
+          required: ["Text", "NamePerson", "Date"],
+          properties: {
+            Text: {
+                bsonType: "string",
+                description: "must be a string and is required"
+             },
+             NamePerson: {
+                bsonType: "string",
+                description: "must be a string and is required"
+             },
+             Date: {
+                 bsonType: "date",
+                     description: "must be a date and is required"
+             }
+           }
+       }
+    }
+ })

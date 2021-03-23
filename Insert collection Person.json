@@ -9,3 +9,8 @@ db.Page.insert({"NamePage": "Marafa Study Center", "NamePerson": "Haladou Issa",
 
 // Insertion de données dans la collection Group
 db.Group.insert({"NameGroup": "LebonCoin", "Visibilite": "PUBLIC", "NamePerson": "Haladou Issa"});
+db.Group.insert({"NameGroup": "MarketPlace", "Visibilite": "PRIVE", "NamePerson": "Haladou Issa"});
+
+// Insertion de données dans la collection Comment
+
+db.Comment.insert({"Text": "Je fais la Data Analyse cette année à l'IA SCHOOL", "NamePerson": "Haladou Issa", "Date": new Date("1987-06-01")});
