@@ -1,0 +1,36 @@
+//Définition du schema de la collection Post"
+
+db.createCollection("Post", {
+    validator: {
+       $jsonSchema: {
+          bsonType: "object",
+          required: ["Titre", "Text", "Date", "NamePerson"],
+          properties: {
+            Titre: {
+                bsonType: "string",
+                description: "must be a string and is required"
+             },
+             Text:{
+                bsonType: "string",
+                description: "must be a string and is required"
+            },
+            Url: {
+                bsonType: "string",
+                description: "must be a string"
+            },
+            Date: {
+                bsonType: "date",
+                description: "must be a date and is required"
+            },
+            comments: {
+                bsonType: "string",
+                description: "must be a string"
+            },
+             NamePerson: {
+                bsonType: "string",
+                description: "must be a string and is required"
+             },
+           }
+       }
+    }
+ })
