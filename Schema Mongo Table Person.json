@@ -16,11 +16,11 @@ db.createCollection("Person", {
              },
              Email: {
                  bsonType: "string",
-                     description: "must be an alphanumeric"
+                 description: "must be an alphanumeric"
              },
              Phonenumber: {
-                bsonType: "int",
-                     description: "must be a Number"
+                bsonType: "string",
+               description: "must be a Number"
              },
               Password: {
                      bsonType: "string",
