@@ -14,3 +14,11 @@ db.Group.insert({"NameGroup": "MarketPlace", "Visibilite": "PRIVE", "NamePerson"
 // Insertion de données dans la collection Comment
 
 db.Comment.insert({"Text": "Je fais la Data Analyse cette année à l'IA SCHOOL", "NamePerson": "Haladou Issa", "Date": new Date("1987-06-01")});
+
+// Insertion de données dans la collection Post
+
+db.Post.insert({"Titre":"Machine Learning", "Text":"J'adore vraiment l'intélligence Artificielle", "Url":"https:\\alsone87.com","Date": new Date("2021-03-24"), "comments": "Par contre moi je fais de la data Science", "NamePerson": "Haladou Issa"});
+
+// Insertion de données dans la collection Stockage
+
+db.Stockage.insert({"Categorie": "PHOTO", "NamePerson": "HALADOU ISSA"}, {"Categorie": "VIDEO", "NamePerson": "NATHALIE FONS"})
