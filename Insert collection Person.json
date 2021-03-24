@@ -1,6 +1,6 @@
 //Insertion dans la collection Person
 
-db.Person.insert({"Name": "Haladou Issa", "Surname": "Ali", "Email": "alimarafa87@gmail.com", "Phonenumber": NumberInt(0642650388), "Password": "karateka87"});
+db.Person.insert({"Name": "Haladou Issa", "Surname": "Ali", "Email": "alimarafa87@gmail.com", "Phonenumber": "0642650388", "Password": "karateka87"});
 
 
 
