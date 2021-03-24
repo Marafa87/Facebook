@@ -1,5 +1,6 @@
 //Insertion dans la collection Person
-db.Person.insert({"Name": "Haladou Issa", "Surname": "Ali", "Email": "alimarafa87gmail.com", "Phonenumber": NumberInt(0642650388), "Password": "karateka87"});
+
+db.Person.insert({"Name": "Haladou Issa", "Surname": "Ali", "Email": "alimarafa87@gmail.com", "Phonenumber": NumberInt(0642650388), "Password": "karateka87"});
 
 
 
@@ -13,7 +14,8 @@ db.Group.insert({"NameGroup": "MarketPlace", "Visibilite": "PRIVE", "NamePerson"
 
 // Insertion de données dans la collection Comment
 
-db.Comment.insert({"Text": "Je fais la Data Analyse cette année à l'IA SCHOOL", "NamePerson": "Haladou Issa", "Date": new Date("1987-06-01")});
+db.Comment.insert({"Text": "Je fais la Data Analyse cette année à l'IA SCHOOL", "NamePerson": "Haladou Issa", 
+    "Date": new Date("1987-06-01")});
 
 // Insertion de données dans la collection Post
 
@@ -22,3 +24,7 @@ db.Post.insert({"Titre":"Machine Learning", "Text":"J'adore vraiment l'intéllig
 // Insertion de données dans la collection Stockage
 
 db.Stockage.insert({"Categorie": "PHOTO", "NamePerson": "HALADOU ISSA"}, {"Categorie": "VIDEO", "NamePerson": "NATHALIE FONS"})
+db.Stockage.insert([{"Categorie": "PHOTO", "NamePerson": "ALI"}, {"Categorie": "VIDEO", "NamePerson": "ACHO"}])
+
+// Insertion de données dans la collection Message
+db.Message.insert({"Contenu": "Je suis interresse par l'IA",  "NameSender":"Haladou Issa", "NameRecever": "Nathalie"});

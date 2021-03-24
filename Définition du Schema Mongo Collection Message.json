@@ -1,0 +1,28 @@
+//Définition du schema de la collection Message"
+
+db.createCollection("Message", {
+    validator: {
+       $jsonSchema: {
+          bsonType: "object",
+          required: ["Contenu", "NameSender", "NameRecever"],
+          properties: {
+            Contenu: {
+                bsonType: "string",
+                description: "must be a string and is required"
+             },
+             NameSender: {
+                bsonType: "string",
+                description: "must be a string and is required"
+             },
+             NameRecever: {
+                bsonType: "string",
+                description: "must be a string and is required"
+             },
+           }
+       }
+    }
+ });
+
+ Create Table Mongo (Col1: VARCHAR, col2: Int, Col3: Float);
+ insert Table Mongo values("Acho", 28, 1,65);
+ select * from Mongo;
