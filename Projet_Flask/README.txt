@@ -9,6 +9,11 @@ https://flask.palletsprojects.com/en/1.1.x/installation/#install-create-env
 https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application
 https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
 
+########## Un forum qui explique bien comment définir un schéma mongodb en python #####
+
+https://stackoverflow.com/questions/61074297/how-to-create-schema-in-mongodb-using-python
+
+
 ################## Les commandes à taper pour la configurations et l'installation de l'environnement Flask ############
 
 1. py -3 -m venv venv

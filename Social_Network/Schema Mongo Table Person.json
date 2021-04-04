@@ -6,17 +6,31 @@ db.createCollection("Person", {
           bsonType: "object",
           required: ["Name", "Surname", "Email", "Phonenumber", "Password"],
           properties: {
-                Name: {
-                bsonType: "string",
-                description: "must be a string and is required"
+             profil_info: {
+               bsonType: "object",
+               properties: {
+                  Name: {
+                     bsonType: "string",
+                     description: "must be a string and is required"
+               },
+                  Surname: {
+                     bsonType: "string",
+                     description: "must be an alphanumeric"
+               },
+                  id_profile_picture: {
+                     bsonType: "string",
+                     description: "must be an alphanumeric"
+               }
+               }
              },
-             Surname: {
-                bsonType: "string",
-                description: "must be an alphanumeric"
-             },
+               
              Email: {
                  bsonType: "string",
                  description: "must be an alphanumeric"
+             },
+             date_of_birth: {
+                bsonType: "date",
+                description: "must be a date"
              },
              Phonenumber: {
                 bsonType: "string",
@@ -25,7 +39,32 @@ db.createCollection("Person", {
               Password: {
                      bsonType: "string",
                      description: "must be an alphanumeric"
-                 }
+              }, 
+               created_at:{
+                  bsonType: "date",
+                  description: "must be a date"
+               },
+               friend_requests:{
+                  bsonType: "object",
+                  properties: {
+                     id_sender: {
+                        bsonType:"string",
+                        description: "must be an alphanumeric"
+                     },
+                     id_receiver:{
+                        bsonType: "string",
+                        description: "must be an alphanumeric"
+                     },
+                     created_at:{
+                        bsonType: "date",
+                        description: "must be a date"
+                     },
+                     status:{ 
+                        enum: ["PENDING", "ACCEPTED", "REJECTED"],
+                        description: "This is a constant and must be one of the fulfilled list"
+                     }
+                  }
+               }
           }
        }
     }
