@@ -23,6 +23,7 @@ https://stackoverflow.com/questions/61074297/how-to-create-schema-in-mongodb-usi
 2. $ pip install -U https://github.com/pallets/flask/archive/master.tar.gz
 ########## ---Création de l'environnement Flask ########
 
+    pip install virtualenv
 python2 -m virtualenv venv
 
 1. $env:FLASK_APP = "hello.py" #### Ici il faudra remplacer le "hello" par le nom de votre application ###
