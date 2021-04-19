@@ -1,33 +1,30 @@
-from flask_restful_swagger_2 import Api, swagger, Schema
+
+from marshmallow import Schema, fields
+
+
+
 
 class PersonModel(Schema):
-    type = 'object'
-    properties = {
-        'id': {
-            'type': 'string',
-        },
-        'firstname': {
-            'type': 'string',
-        },
-        'surname': {
-            'type': 'string',
-        },
-        'email': {
-            'type': 'string',
-        },
-        'date_of_birth': {
-            'type': 'string',
-        },
-        'phone_number': {
-            'type': 'string',
-        },
-        'password': {
-            'type': 'string',
-        },
-        'created_at': {
-            'type': 'date',
-        }
-    }
+    id = fields.String(required=True)
+    firstname = fields.String(required=True)
+    surname = fields.String(required=True)
+    email = fields.String(required=True)
+    date_of_birth = fields.String(required=True)
+    phone_number = fields.String(required=True)
+    password = fields.String(required=True)
+    created_at = fields.String(required=True)
+    api_key = fields.String(required=False)
+
+class FriendsListModel(Schema):
+    friends= fields.List(fields.Nested(PersonModel))
+
+class RegisterPersonModel(Schema):
+    firstname = fields.String(required=True)
+    surname = fields.String(required=True)
+    email = fields.String(required=True)
+    date_of_birth = fields.String(required=True)
+    phone_number = fields.String(required=True)
+    password = fields.String(required=True)
 
 def serialize_person(person):
     return {
@@ -38,33 +35,19 @@ def serialize_person(person):
         'date_of_birth': person['date_of_birth'],
         'phone_number': person['phone_number'],
         'password': person['password'],
-        'created_at': person['created_at']
+        'created_at': person['created_at'],
+        'api_key': person['api_key']
     }
 
 
 
 class PageModel(Schema):
-    type = 'object'
-    properties = {
-        'id': {
-            'type': 'string',
-        },
-        'name_page': {
-            'type': 'string',
-        },
-        'about': {
-            'type': 'text',
-        },
-        'url_website': {
-            'type': 'string',
-        },
-        'type': {
-            'type': 'string',
-        },
-        'created_at': {
-            'type': 'datetime',
-        }
-    }
+    id = fields.String(required=True)
+    name_page = fields.String(required=True)
+    about = fields.String(required=True)
+    url_website = fields.String(required=True)
+    type = fields.String(required=True)
+    created_at = fields.Date(required=True)
 
 def serialize_page(page):
     return {
@@ -78,21 +61,10 @@ def serialize_page(page):
 
 
 class GroupModel(Schema):
-    type = 'object'
-    properties = {
-        'id': {
-            'type': 'string',
-        },
-        'group_name': {
-            'type': 'string',
-        },
-        'visibility': {
-            'type': 'string',
-        },
-        'created_at': {
-            'type': 'date',
-        }
-    }
+    id = fields.String(required=True)
+    group_name = fields.String(required=True)
+    visibility = fields.String(required=True)
+    created_at = fields.Date(required=True)
 
 def serialize_group(group):
     return {
@@ -104,21 +76,14 @@ def serialize_group(group):
 
 
 class MediaModel(Schema):
-    type = 'object'
-    properties = {
-        'id': {
-            'type': 'string',
-        },
-        'local_path': {
-            'type': 'string',
-        },
-        'category': {
-            'type': 'string',
-        },
-        'created_at': {
-            'type': 'date',
-        }
-    }
+    id = fields.String(required=True)
+    type = fields.String(required=True)
+    local_path = fields.String(required=True)
+    category = fields.String(required=True)
+    created_at = fields.String(required=True)
+
+class MediaListModel(Schema):
+    medias= fields.List(fields.Nested(MediaModel))
 
 def serialize_media(model):
     return {
@@ -129,18 +94,13 @@ def serialize_media(model):
     }
 
 class MessageModel(Schema):
-    type = 'object'
-    properties = {
-        'id': {
-            'type': 'string',
-        },
-        'html_content': {
-            'type': 'text',
-        },
-        'created_at': {
-            'type': 'date',
-        }
-    }
+    id = fields.String(required=True)
+    type = fields.String(required=True)
+    html_content = fields.String(required=True)
+    created_at = fields.String(required=True)
+
+class MessageListModel(Schema):
+    messages= fields.List(fields.Nested(MessageModel))
 
 def serialize_message(model):
     return {
@@ -151,18 +111,9 @@ def serialize_message(model):
 
 
 class CommentModel(Schema):
-    type = 'object'
-    properties = {
-        'id': {
-            'type': 'string',
-        },
-        'html_content': {
-            'type': 'text',
-        },
-        'created_at': {
-            'type': 'date',
-        }
-    }
+    id = fields.String(required=True)
+    html_content = fields.String(required=True)
+    created_at = fields.Date(required=True)
 
 def serialize_comment(model):
     return {
@@ -173,18 +124,10 @@ def serialize_comment(model):
 
 
 class FriendRequestModel(Schema):
-    type = 'object'
-    properties = {
-        'id': {
-            'type': 'string',
-        },
-        'status': {
-            'type': 'string',
-        },
-        'created_at': {
-            'type': 'datetime',
-        }
-    }
+    id = fields.String(required=True)
+    status = fields.String(required=True)
+    created_at = fields.Date(required=True)
+    
 
 def serialize_friendrequest(model):
     return {
@@ -194,21 +137,13 @@ def serialize_friendrequest(model):
     }
 
 class PostModel(Schema):
-    type = 'object'
-    properties = {
-        'id': {
-            'type': 'string',
-        },
-        'html_content': {
-            'type': 'text',
-        },
-        'type': {
-            'type': 'string',
-        },
-        'created_at': {
-            'type': 'date',
-        }
-    }
+    id = fields.String(required=True)
+    html_content = fields.String(required=True)
+    type=fields.String(required=True)
+    created_at = fields.String(required=True)
+
+class PostsListModel(Schema):
+    posts= fields.List(fields.Nested(PostModel))
 
 def serialize_post(model):
     return {

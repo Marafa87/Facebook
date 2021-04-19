@@ -24,7 +24,12 @@ DATABASE_USERNAME = env('FB_DATABASE_USERNAME')
 DATABASE_PASSWORD = env('FB_DATABASE_PASSWORD')
 DATABASE_URL = env('FB_DATABASE_URL')
 
+
+
 driver = GraphDatabase.driver(DATABASE_URL, auth=basic_auth(DATABASE_USERNAME, str(DATABASE_PASSWORD)))
+
+
+
 
 
 def get_db():
