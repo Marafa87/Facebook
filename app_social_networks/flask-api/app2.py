@@ -24,7 +24,7 @@ from functools import wraps
 
 from login import set_user
 from config import env,app,api,docs,output_json,db_mg
-from models2 import PersonModelMG,PageListMG,PostsListMG,PostModelMG,ProfilModelMG,RegisterPersonModelMG,FriendsListModelMG
+from models2 import MessagesListModelMG,MessageModelMG,MediasListModelMG,MediaModelMG,PersonModelMG,PageListMG,PostsListMG,PostModelMG,ProfilModelMG,RegisterPersonModelMG,FriendsListModelMG
 import config,login,models
 from constants import FRIENDS_REQUEST_STATUS
 
@@ -57,6 +57,57 @@ def login_required_mg(f):
     return wrapped
 
 
+def get_friends_of_person(id):
+    result = list(db_mg.Persons.aggregate([ 
+                {
+                "$addFields": {"_id_person": {'$toString':'$_id'}}
+                },
+                {
+                
+                '$match': {
+                    '_id_person': id,
+                    
+                    }
+                },
+                { '$unwind': '$friend_requests' },
+        
+                {'$lookup': {
+                    'from': 'Persons', 
+                    'localField': 'friend_requests.id_sender', 
+                    'foreignField': 'Persons._id_person', 
+                    'as': 'friends_accepted'
+                }
+                }
+
+                ,
+        
+                {'$lookup': {
+                    'from': 'Persons', 
+                    'localField': '_id_person', 
+                    'foreignField': 'friend_requests.id_sender', 
+                    'as': 'friends_requested'
+                }
+                }
+     
+        ]) )
+    #app.logger.error(result) 
+    friends = []
+    friends_accepted = []
+    friends_requested = []
+       
+    if(len(result)>0):
+        friends_accepted = result[0].get('friends_accepted')
+        friends_requested = result[0].get('friends_requested')
+        #app.logger.error(result[0].get('friends_accepted'))
+        for friend in friends_accepted:
+            if (not(friend in friends) and (str(friend.get('_id'))!=id)):
+                friends.append(friend)
+
+        for friend in friends_requested:
+            if (not(friend in friends) and (str(friend.get('_id'))!=id)):
+                friends.append(friend)
+    return friends
+
 
 
 class FriendsListMG(MethodResource, Resource):
@@ -65,45 +116,12 @@ class FriendsListMG(MethodResource, Resource):
     #@login_required_mg
     def get(self,id):
       
-        result = list(db_mg.Person.aggregate([
-                {
-                "$addFields": {"_id_person": {'$toString':'$_id'}}
-                },
-                {
-                    "$match":{   
-                        "_id_person":id_person
-                        },
-                } ,
-                {
-                    '$lookup': {
-                        'from': 'Person', 
-                        'localField': '_id_person', 
-                        'foreignField': 'id_sender',
-                        'as': 'friends2',
-                        'as': 'friends',
-                    }
-                }, 
-                {
-                    '$lookup': {
-                        'from': 'Person', 
-                        'localField': 'id_sender', 
-                        'foreignField': '_id',
-                        'as': 'friends2',
-                    }
-                }, 
-                {
-                    '$unwind': {
-                        'path': '$friends', 
-                        'preserveNullAndEmptyArrays': True
-                    }
-                }, 
-                {
-                    '$unwind': {
-                        'path': '$friends2', 
-                        'preserveNullAndEmptyArrays': True
-                    }
-                } ]) )        
-        return {'friends':result["friends"]},200
+        friends = get_friends_of_person(id)      
+
+        
+        
+        #app.logger.error(friends) 
+        return {'friends':friends},200
 
 
 
@@ -112,7 +130,7 @@ class PostsFromPageMG(MethodResource, Resource):
     @marshal_with(PostsListMG)  # marshalling
     #@login_required_mg
     def get(self,id):
-      
+        posts = []
         result = list(db_mg.Pages.aggregate([
                 {
                 "$addFields": {"_id_page": {'$toString':'$_id'}}
@@ -125,26 +143,19 @@ class PostsFromPageMG(MethodResource, Resource):
                 {
                     '$lookup': {
                         'from': 'Posts', 
-                        'localField': 'id_page_owner', 
-                        'foreignField': 'Pages._id', 
+                        'localField': '_id_page', 
+                        'foreignField': 'owner.id_page_owner', 
                         'as': 'posts',
                     }
-                }, 
-                {
-                    '$unwind': {
-                        'path': '$posts', 
-                        'preserveNullAndEmptyArrays': True
-                    }
-                } 
-                ,{
+                }, {
                     "$limit":20
                 }
-              
-                ]
-                ) )        
-        for record in result:
-            app.logger.error("POST")
-        return {'posts': result['posts']},200
+              , 
+                ]) )   
+        if(len(result)>0):
+            posts = result[0].get('posts')
+        return {'posts': posts},200
+
 
 class PostsFromFriendsAndPageMG(MethodResource, Resource):
     @doc(description='List of Posts from page', tags=['MONGO Post'])
@@ -152,38 +163,97 @@ class PostsFromFriendsAndPageMG(MethodResource, Resource):
     #@login_required_mg
     def get(self,id):
       
-        result = list(db_mg.Pages.aggregate([
+        friends = get_friends_of_person(id)    
+        posts_friends = []
+        for friend in friends:
+            id_friend = str(friend.get('_id'))
+            posts_friend = list(db_mg.Persons.aggregate([
                 {
-                "$addFields": {"_id_page": {'$toString':'$_id'}}
+                "$addFields": {"_id_person": {'$toString':'$_id'}}
                 },
                 {
                     "$match":{   
-                        "_id_page":id
+                        "_id_person":id_friend
                         },
                 }, 
                 {
                     '$lookup': {
                         'from': 'Posts', 
-                        'localField': 'id_owner_of_wall_to_display', 
-                        'foreignField': 'Pages._id_page', 
-                        'as': 'posts',
+                        'localField': '_id_person', 
+                        'foreignField': 'owner.id_person_owner', 
+                        'as': 'posts_friends',
                     }
                 }, 
                 {
-                    '$unwind': {
-                        'path': '$posts', 
-                        'preserveNullAndEmptyArrays': True
-                    }
-                } 
-                ,{
                     "$limit":20
                 }
               
                 ]
-                ) )        
-        for record in result:
-            app.logger.error("POST")
-        return {'posts': result['posts']},200
+                ) )    
+            if(len(posts_friend)>0):
+                posts_friends.extend(posts_friend[0].get('posts_friends'))
+
+        
+       
+        return {'posts': posts_friends},200
+
+
+class RecommendedFriendsMG(MethodResource, Resource):
+    @doc(description='List of recommended friends', tags=['MONGO Person'])
+    @marshal_with(FriendsListModelMG)  # marshalling
+    #@login_required
+    def get(self,id):
+        list_friends = get_friends_of_person(id)
+        list_recommended_friends = []
+        list_recommended_friends_corrected = []
+        list_friends_id = []
+        list_friends_id.append(str(id))
+        
+        for friend in list_friends:
+            list_friends_id.append(str(friend.get('_id')))
+            app.logger.error( str(friend.get('_id')) ) 
+            recommendations = get_friends_of_person( str(friend.get('_id')))
+            list_recommended_friends.extend(recommendations)
+        
+        for friend in list_recommended_friends:
+            
+            if(not(str(friend.get('_id')) in list_friends_id)):
+                if(not(friend in list_recommended_friends_corrected)):
+                    list_recommended_friends_corrected.append(friend)
+        #app.logger.error(list_recommended_friends_corrected)      
+        return {'friends':list_recommended_friends_corrected}
+
+
+
+
+
+class PhotosMG(MethodResource, Resource):
+    @doc(description='List of Photos from a person', tags=['MONGODB Photo'])
+    @marshal_with(MediasListModelMG)  # marshalling
+    #@login_required_mg
+    def get(self,id):
+        photos_person = list(db_mg.Medias.aggregate([
+        
+                {
+                
+                '$match': {
+                    'category': 'PHOTO',
+                    'owner.id_person_owner': id,
+                    }
+                },
+                {
+                    "$limit":20
+                }
+              
+                ]
+                ) )  
+        photos= []  
+        if(len(photos_person)>0):
+            photos = photos_person[0].get('photos')
+        app.logger.error(photos)    
+        return {'medias':photos_person},200
+
+
 
 
 api.add_resource(FriendsListMG, '/mongodb/friends/<string:id>')
@@ -191,10 +261,12 @@ api.add_resource(PostsFromPageMG, '/mongodb/page-posts/<string:id>')
 api.add_resource(PostsFromFriendsAndPageMG, '/mongodb/page-friends-posts/<string:id>')
 
 
-#api.add_resource(RecommendedFriends, '/mongodb/recommended-friends/<string:id>')
+api.add_resource(RecommendedFriendsMG, '/mongodb/recommended-friends/<string:id>')
 #api.add_resource(Messages, '/mongodb/messages/<string:id>')
-#api.add_resource(Photos, '/mongodb/photos/<string:id>')
+api.add_resource(PhotosMG, '/mongodb/photos/<string:id>')
 
 docs.register(FriendsListMG)
 docs.register(PostsFromPageMG)
 docs.register(PostsFromFriendsAndPageMG)
+docs.register(RecommendedFriendsMG)
+docs.register(PhotosMG)

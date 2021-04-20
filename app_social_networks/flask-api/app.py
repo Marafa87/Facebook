@@ -117,7 +117,7 @@ class RecommendedFriends(MethodResource, Resource):
         return {'friends':[serialize_person(record['person']) for record in list_recommended_friends_corrected]}
 
 class PostsFromPage(MethodResource, Resource):
-    @doc(description='List of Posts from page', tags=['NEO4J Posts'])
+    @doc(description='List of Posts from page', tags=['NEO4J Post'])
     @marshal_with(PostsListModel)  # marshalling
     #@login_required_mg
     def get(self,id):
@@ -158,7 +158,7 @@ class PostsFromFriendsAndPage(MethodResource, Resource):
 
 
 class Messages(MethodResource, Resource):
-    @doc(description='List of Posts from page', tags=['NEO4J Message'])
+    @doc(description='List of Message from friends of a person', tags=['NEO4J Message'])
     @marshal_with(MessageListModel)  # marshalling
     #@login_required_mg
     def get(self,id):
@@ -178,7 +178,7 @@ class Messages(MethodResource, Resource):
         return {'messages':[serialize_message(record['message']) for record in result]},200
 
 class Photos(MethodResource, Resource):
-    @doc(description='List of Posts from page', tags=['NEO4J Photo'])
+    @doc(description='List of Photos of a person', tags=['NEO4J Photo'])
     @marshal_with(MediaListModel)  # marshalling
     #@login_required_mg
     def get(self,id):

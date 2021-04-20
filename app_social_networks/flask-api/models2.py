@@ -7,6 +7,11 @@ class ProfilModelMG(Schema):
     Name = fields.String(required=True)
     Surname = fields.String(required=True)
 
+class FriendRequestModelMG(Schema):
+    id_sender = fields.String(required=True)
+    status = fields.String(required=True)
+    created_at = fields.String(required=True)
+
 
 class PersonModelMG(Schema):
     _id = fields.String(required=True)
@@ -16,6 +21,10 @@ class PersonModelMG(Schema):
     Phonenumber = fields.String(required=True)
     Password = fields.String(required=True)
     created_at = fields.String(required=True)
+    friend_requests = fields.List(fields.Nested(FriendRequestModelMG))
+
+    
+
 
 class FriendsListModelMG(Schema):
     friends= fields.List(fields.Nested(PersonModelMG))
@@ -59,37 +68,39 @@ class PageModelMG(Schema):
 class PageListMG(Schema):
     pages= fields.List(fields.Nested(PageModelMG))
 
-class GroupModel(Schema):
+class GroupModelMG(Schema):
     _id = fields.String(required=True)
     group_name = fields.String(required=True)
     visibility = fields.String(required=True)
     created_at = fields.Date(required=True)
 
 
-class MediaModel(Schema):
+class MediaModelMG(Schema):
     _id = fields.String(required=True)
     type = fields.String(required=True)
     local_path = fields.String(required=True)
     category = fields.String(required=True)
-    created_at = fields.Date(required=True)
+    created_at = fields.String(required=True)
 
+class MediasListModelMG(Schema):
+    medias = fields.List(fields.Nested(MediaModelMG))
 
-class MessageModel(Schema):
+class MessageModelMG(Schema):
     _id = fields.String(required=True)
     type = fields.String(required=True)
     html_content = fields.String(required=True)
-    created_at = fields.Date(required=True)
+    created_at = fields.String(required=True)
 
+class MessagesListModelMG(Schema):
+    messages = fields.List(fields.Nested(MessageModelMG))
 
-class CommentModel(Schema):
+class CommentModelMG(Schema):
     _id = fields.String(required=True)
     html_content = fields.String(required=True)
     created_at = fields.DateTime(required=True)
 
 
-class FriendRequestModel(Schema):
-    _id = fields.String(required=True)
-    status = fields.String(required=True)
-    created_at = fields.Date(required=True)
+
+
 
 
