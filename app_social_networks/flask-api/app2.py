@@ -57,55 +57,71 @@ def login_required_mg(f):
     return wrapped
 
 
-def get_friends_of_person(id):
+
+
+def get_friends_of_person2(id):
     result = list(db_mg.Persons.aggregate([ 
+                { '$unwind': '$friend_requests' },
                 {
-                "$addFields": {"_id_person": {'$toString':'$_id'}}
+                "$addFields": {"_id_person": {'$toString':'$_id'},
+                                "id_sender_object":{'$toObjectId':'$friend_requests.sender_id'}}
                 },
+                
                 {
                 
                 '$match': {
-                    '_id_person': id,
-                    
+                                '_id_person': id,
+                                "friend_requests.status": 'ACCEPTED',
+                  
                     }
+                  
                 },
-                { '$unwind': '$friend_requests' },
         
                 {'$lookup': {
                     'from': 'Persons', 
-                    'localField': 'friend_requests.id_sender', 
-                    'foreignField': 'Persons._id_person', 
+                    'localField': 'id_sender_object', 
+                    'foreignField': '_id', 
                     'as': 'friends_accepted'
                 }
                 }
 
-                ,
+                
         
-                {'$lookup': {
-                    'from': 'Persons', 
-                    'localField': '_id_person', 
-                    'foreignField': 'friend_requests.id_sender', 
-                    'as': 'friends_requested'
-                }
+     
+        ]) )
+    friends_requested = list(db_mg.Persons.aggregate([ 
+                { '$unwind': '$friend_requests' },
+            
+                
+                {
+                
+                '$match': {
+                    "friend_requests.sender_id": id,
+                                "friend_requests.status": 'ACCEPTED'
+                  
+                    }
+                  
                 }
      
         ]) )
-    #app.logger.error(result) 
+    #app.logger.error(id) 
+    
     friends = []
     friends_accepted = []
-    friends_requested = []
        
     if(len(result)>0):
-        friends_accepted = result[0].get('friends_accepted')
-        friends_requested = result[0].get('friends_requested')
-        #app.logger.error(result[0].get('friends_accepted'))
-        for friend in friends_accepted:
-            if (not(friend in friends) and (str(friend.get('_id'))!=id)):
-                friends.append(friend)
-
-        for friend in friends_requested:
-            if (not(friend in friends) and (str(friend.get('_id'))!=id)):
-                friends.append(friend)
+        for res in result:
+            friends_accepted = res.get('friends_accepted')
+            for friend in friends_accepted:
+                if (not(friend in friends) and (str(friend.get('_id'))!=id)):
+                    friends.append(friend)
+    #app.logger.error('friends_accepted')
+    #app.logger.error(friends_accepted)
+    #app.logger.error('friends_requested')
+    #app.logger.error(friends_requested)
+    for friend in friends_requested:
+                if (not(friend in friends) and (str(friend.get('_id'))!=id)):
+                    friends.append(friend)
     return friends
 
 
@@ -116,7 +132,7 @@ class FriendsListMG(MethodResource, Resource):
     #@login_required_mg
     def get(self,id):
       
-        friends = get_friends_of_person(id)      
+        friends = get_friends_of_person2(id)      
 
         
         
@@ -163,37 +179,29 @@ class PostsFromFriendsAndPageMG(MethodResource, Resource):
     #@login_required_mg
     def get(self,id):
       
-        friends = get_friends_of_person(id)    
+        friends = get_friends_of_person2(id) 
         posts_friends = []
         for friend in friends:
             id_friend = str(friend.get('_id'))
-            posts_friend = list(db_mg.Persons.aggregate([
-                {
-                "$addFields": {"_id_person": {'$toString':'$_id'}}
-                },
+            app.logger.error(id_friend) 
+            posts_friend = list(db_mg.Posts.aggregate([
+                { '$unwind': '$owner' },
                 {
                     "$match":{   
-                        "_id_person":id_friend
+                        "owner.id_person_owner":id_friend
                         },
-                }, 
-                {
-                    '$lookup': {
-                        'from': 'Posts', 
-                        'localField': '_id_person', 
-                        'foreignField': 'owner.id_person_owner', 
-                        'as': 'posts_friends',
-                    }
                 }, 
                 {
                     "$limit":20
                 }
               
                 ]
-                ) )    
+                ) )  
+             
             if(len(posts_friend)>0):
-                posts_friends.extend(posts_friend[0].get('posts_friends'))
+                posts_friends.extend(posts_friend)
 
-        
+        app.logger.error(posts_friends)  
        
         return {'posts': posts_friends},200
 
@@ -203,7 +211,7 @@ class RecommendedFriendsMG(MethodResource, Resource):
     @marshal_with(FriendsListModelMG)  # marshalling
     #@login_required
     def get(self,id):
-        list_friends = get_friends_of_person(id)
+        list_friends = get_friends_of_person2(id)
         list_recommended_friends = []
         list_recommended_friends_corrected = []
         list_friends_id = []
@@ -211,16 +219,14 @@ class RecommendedFriendsMG(MethodResource, Resource):
         
         for friend in list_friends:
             list_friends_id.append(str(friend.get('_id')))
-            app.logger.error( str(friend.get('_id')) ) 
-            recommendations = get_friends_of_person( str(friend.get('_id')))
+            recommendations = get_friends_of_person2( str(friend.get('_id')))
             list_recommended_friends.extend(recommendations)
         
         for friend in list_recommended_friends:
-            
             if(not(str(friend.get('_id')) in list_friends_id)):
-                if(not(friend in list_recommended_friends_corrected)):
-                    list_recommended_friends_corrected.append(friend)
-        #app.logger.error(list_recommended_friends_corrected)      
+                list_friends_id.append(str(friend.get('_id')))
+                list_recommended_friends_corrected.append(friend)
+          
         return {'friends':list_recommended_friends_corrected}
 
 
@@ -247,10 +253,7 @@ class PhotosMG(MethodResource, Resource):
               
                 ]
                 ) )  
-        photos= []  
-        if(len(photos_person)>0):
-            photos = photos_person[0].get('photos')
-        app.logger.error(photos)    
+        
         return {'medias':photos_person},200
 
 

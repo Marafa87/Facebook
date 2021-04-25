@@ -38,14 +38,12 @@ class PostModelMG(Schema):
     _id = fields.String(required=True)
     html_content = fields.String(required=True)
     owner = fields.Nested(PostOwnerModel)
-    id_owner_of_wall_to_display: fields.String(required=True)
     id_comments = fields.List(fields.String())
-    _type = fields.String(required=True)
-    created_at = fields.Date(required=True)
+    created_at = fields.String(required=True)
 
 
 class PostsListMG(Schema):
-    friends= fields.List(fields.Nested(PostModelMG))
+    posts= fields.List(fields.Nested(PostModelMG))
 
 class RegisterPersonModelMG(Schema):
     firstname = fields.String(required=True)
