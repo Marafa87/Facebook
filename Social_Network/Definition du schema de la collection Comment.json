@@ -1,24 +1,26 @@
 //Définition du schema de la collection comment mongo Db"
 
-db.createCollection("Comment", {
-    validator: {
-       $jsonSchema: {
-          bsonType: "object",
-          required: ["Text", "NamePerson", "Date"],
-          properties: {
-            Text: {
-                bsonType: "string",
-                description: "must be a string and is required"
-             },
-             NamePerson: {
-                bsonType: "string",
-                description: "must be a string and is required"
-             },
-             Date: {
-                 bsonType: "date",
-                     description: "must be a date and is required"
-             }
-           }
-       }
-    }
- })
+Comments = {
+   "html_content": {
+       "type": "string",
+       "description": "must be a string and is required",
+       "required": True
+   },
+   "id_owner": {
+       "type": "string",
+       "description": "must be a string and is required",
+       "required": True
+   },
+   "list_comments": {
+       "type": "array",
+       "description": "must be "
+   },
+   "created_at": {
+       "type": "date",
+       "description": "must be a date and is required"
+   }
+}
+
+validator = {'$jsonSchema': {'bsonType': 'object', 'properties': {"html_content", "id_owner", "list_comments", "created_at"}}}
+required = ["html_content", "id_owner"]
+db.create_collection("Comments")

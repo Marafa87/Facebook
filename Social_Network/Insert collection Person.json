@@ -1,31 +1,107 @@
 //Insertion dans la collection Person
 
-db.Person.insert({"Name": "Haladou Issa", "Surname": "Ali", "Email": "alimarafa87@gmail.com", "Phonenumber": NumberInt(0642650388), "Password": "karateka87"});
+from datetime import datetime
+df = datetime.today().strftime("%Y/%m/%d")
+dico2 = [{"profil_info": {"Name": "Haladou Issa", "Surname": "ALi"}, "Email": "ali.haladou-issa@groupe-gema.com", "date_of_birth": "1990/10/21", 
+"Phonenumber": "0766175598", "Password": "Mygema2023", "created_at": df},
+        {"profil_info": {"Name": "Alafaleq", "Surname": "Munirah"}, "Email": "munirah.alfaleq@groupe-gema.com", "date_of_birth": "1996/10/01", 
+"Phonenumber": "0699378898", "Password": "Munirah2023", "created_at": df},
+        {"profil_info": {"Name": "Abudul Ramoni", "Surname": "Odesanya"}, "Email": "ramoni.odesanya@groupe-gema.com", "date_of_birth": "1994/09/29", 
+"Phonenumber": "0699378898", "Password": "Munirah2023", "created_at": df},
+        {"profil_info": {"Name": "Fons", "Surname": "Nathalie"}, "Email": "nathalie.fons@groupe-gema.com", "date_of_birth": "1985/02/30", 
+"Phonenumber": "0666358790", "Password": "nathalie2023", "created_at": df},
+{"profil_info": {"Name": "Acho", "Surname": "Adubi"}, "Email": "adubi.acho@groupe-gema.com", "date_of_birth": "1990/04/02", 
+"Phonenumber": "0788376080", "Password": "acho2021", "created_at": df}]
+
+// Nous allons ajouter des amis dans la collection Person pour des personnes
+from bson.objectid import ObjectId
+from datetime import datetime
+df = datetime.today().strftime("%Y/%m/%d")
+
+db.Persons.update_one(
+      { "_id" : ObjectId('607c89c914afdec1a7d8d672') },
+      { "$set": {"friend_requests": [{"id_sender" : "607c89c914afdec1a7d8d671",
+                  "created_at": df,
+                  "status": "PENDING"}]}});
+
+// Nous allons mettre à jour la liste des amis d'une personne
+from datetime import datetime
+df = datetime.today().strftime("%Y/%m/%d")
+myquery = { '_id' : ObjectId('607c89c914afdec1a7d8d66e') }
+
+newvalues = { '$push': {"friend_requests": [{"id_sender" : "607c89c914afdec1a7d8d670",
+                        "created_at": df,
+                        "status": "ACCEPTED"}]}}
+x = db.Persons.update_one(myquery, newvalues)
+print(x.modified_count, "documents updated.")
 
 
 
 //Insertion de données dans la collection Page
-db.Page.insert({"NamePage": "Marafa Study Center", "NamePerson": "Haladou Issa", "Site": "www.alsone87.com"});
+from datetime import datetime
+dat = datetime.today().strftime("%Y/%m/%d")
+dico3 = [{"name_page": "Twitter", "about": "Réseau Social", 
+          "url_website": "https:\marafacare.com", "id_owner": "60785143ec3163878fec23c4", "created_at": dat},
+        {"name_page": "Vente privée", "about": "Vente et achat sur internet", 
+          "url_website": "https:\marafacare.com", "id_owner": "60785143ec3163878fec23c5", "created_at": dat},
+        {"name_page": "Twitter", "about": "Réseau Social", 
+          "url_website": "https:\marafacare.com", "id_owner": "606e30ff3b959e1d37a18c1c", "created_at": dat}]
+db.Pages.insert_many(dico3)
 
 
 // Insertion de données dans la collection Group
-db.Group.insert({"NameGroup": "LebonCoin", "Visibilite": "PUBLIC", "NamePerson": "Haladou Issa"});
-db.Group.insert({"NameGroup": "MarketPlace", "Visibilite": "PRIVE", "NamePerson": "Haladou Issa"});
+from datetime import datetime
+dat0 = datetime.today().strftime("%Y/%m/%d")
+dico5 = [{"group_name": "Leboncoin", "visibility": "PUBLIC", "id_owner": "606e2b933b959e1d37a18c1b", 
+         "id_person_members": ["606e2b933b959e1d37a18c1b", "606e30ff3b959e1d37a18c1c", "60785143ec3163878fec23c5", "60785143ec3163878fec23c4"], "created_at": dat0},
+        {"group_name": "Leboncoin", "visibility": "PUBLIC", "id_owner": "606e30ff3b959e1d37a18c1c", 
+         "id_person_members": ["606e30ff3b959e1d37a18c1c", "60785143ec3163878fec23c5", "60785143ec3163878fec23c4"], "created_at": dat0}]
+db.Groups.insert_many(dico5)
 
 // Insertion de données dans la collection Comment
 
-db.Comment.insert({"Text": "Je fais la Data Analyse cette année à l'IA SCHOOL", "NamePerson": "Haladou Issa", 
-    "Date": new Date("1987-06-01")});
+from datetime import datetime
+dat1 = datetime.today().strftime("%Y/%m/%d")
+dic = [{"html_content": "Yep c'est génial", "id_owner": "606e30ff3b959e1d37a18c1c", "created_at": dat1},
+      {"html_content": "Your look is wonderful", "id_owner": "60785143ec3163878fec23c5", "created_at": dat1},
+      {"html_content": "I like your style", "id_owner": "60785143ec3163878fec23c4", "created_at": dat1}]
+db.Comments.insert_many(dic)
 
 // Insertion de données dans la collection Post
 
-db.Post.insert({"Titre":"Machine Learning", "Text":"J'adore vraiment l'intélligence Artificielle", "Url":"https:\\alsone87.com","Date": new Date("2021-03-24"),
-                "comments": "Par contre moi je fais de la data Science", "NamePerson": "Haladou Issa"});
-
-// Insertion de données dans la collection Stockage
-
-db.Stockage.insert({"Categorie": "PHOTO", "NamePerson": "HALADOU ISSA"}, {"Categorie": "VIDEO", "NamePerson": "NATHALIE FONS"})
-db.Stockage.insert([{"Categorie": "PHOTO", "NamePerson": "ALI"}, {"Categorie": "VIDEO", "NamePerson": "ACHO"}])
+from datetime import datetime
+dat4 = datetime.today().strftime("%Y/%m/%d")
+dicos = [{"html_content": "wawww j'aime très bien ton look je t'assure!!", "id_comments": ["60704a41f999c27bf4e0112b"], 
+         "owner": {"id_person_owner":"60785143ec3163878fec23c4"}, "created_at": dat4},
+        {"html_content": "Vous êtes très bien aimable cher monsieur!!", "id_comments": ["60704a41f999c27bf4e0112b"], 
+         "owner": {"id_person_owner":"60785143ec3163878fec23c5"}, "created_at": dat4},
+        {"html_content": "Can i invite to a diner tomorrow??", "id_comments": ["60704a41f999c27bf4e0112b"], 
+         "owner": {"id_person_owner":"606e30ff3b959e1d37a18c1c"}, "created_at": dat4}
+        ]
+db.Posts.insert_many(dicos)
 
 // Insertion de données dans la collection Message
-db.Message.insert({"Contenu": "Je suis interresse par l'IA",  "NameSender":"Haladou Issa", "NameRecever": "Nathalie"});
+from datetime import datetime
+df = datetime.today().strftime("%Y/%m/%d")
+dicoss = [{"html_content": "On aura cours ce soir à 17h30!", "sender": {"id_person_sender": "606e2b933b959e1d37a18c1b"},
+"receivers": {"id_person_reciver": "60785143ec3163878fec23c4"}, "created_at": df}, 
+{"html_content": "Salut mon ami acho!", "sender": {"id_person_sender": "60785143ec3163878fec23c4"},
+"receivers": {"id_person_reciver": "60785143ec3163878fec23c5"}, "created_at": df}, 
+{"html_content": "Salut Ali ça se passe bien!", "sender": {"id_person_sender": "606e30ff3b959e1d37a18c1c"},
+"receivers": {"id_person_reciver": "606e2b933b959e1d37a18c1b"}, "created_at": df}]
+db.Messages.insert_many(dicoss);
+
+// Nous allons faire des insertions dans la collection Media
+from datetime import datetime
+dat = datetime.today().strftime("%Y/%m/%d")
+dico3 = {"local_path": r"C:\Users\Marafa\Vidéos\video1", "category": "VIDEO", 
+         "owner": {"id_person_owner": "606e2b933b959e1d37a18c1b"}, "created_at": dat} 
+
+dico = [{"local_path": "C:\\Users\\Marafa\\Images\\photo2", "category": "PHOTO", 
+         "owner": {"id_person_owner": "60785143ec3163878fec23c4"}, "created_at": dat}, 
+       {"local_path": "C:\\Users\\Marafa\\Images\\photo3", "category": "PHOTO", 
+         "owner": {"id_person_owner": "60785143ec3163878fec23c5"}, "created_at": dat},
+        {"local_path": "C:\\Users\\Marafa\\Images\\photo4", "category": "PHOTO", 
+         "owner": {"id_person_owner": "606e2b933b959e1d37a18c1b"}, "created_at": dat}
+       ] 
+db.Medias.insert_many(dico);

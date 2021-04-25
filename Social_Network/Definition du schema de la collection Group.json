@@ -1,24 +1,33 @@
 //Définition du schema mongo pour la collection Group Db"
 
-db.createCollection("Group", {
-    validator: {
-       $jsonSchema: {
-          bsonType: "object",
-          required: ["NameGroup", "Visibilite", "NamePerson"],
-          properties: {
-            NameGroup: {
-                bsonType: "string",
-                description: "must be a string and is required"
-             },
-             Visibilite: {
-                enum: [ "PUBLIC", "PRIVE" ],
-                description: "must be a string and is required"
-             },
-             NamePerson: {
-                 bsonType: "string",
-                 description: "must be a string and is required"
-             }
-           }
-       }
-    }
- })
+Groups = {
+   "group_name": {
+       "type": "string",
+       "description": "must be a string and is required",
+       "required": True
+   },
+   "visibility": {
+       "enum": ["PRIVATE", "PUBLIC"],
+       "description": "must be one of those string: PRIVATE / PUBLIC ",
+       "required": True
+   },
+   "id_owner": {
+       "type": "string",
+       "description": "must be a string and is required",
+       "required": True
+   },
+   "id_person_members": {
+       "type": "array",
+       "description": "must be an id from string format"
+   },
+   "created_at": {
+       "type": "date",
+       "description": "must be a date and is required",
+       "required": True
+   }
+   
+}
+
+validator = {'$jsonSchema': {'bsonType': 'object', 'properties': {"group_name", "visibility", "id_owner", "id_person_members"}}}
+required = ["group_name", "visibility", "id_owner", "created_at"]
+db.create_collection("Groups")

@@ -1,0 +1,46 @@
+Medias = {
+              
+    "local_path": {
+            "type": "string",
+            "description": "must be a string and is required",
+         "required": True
+         },
+     "category": {
+            "enum": [ "PHOTO", "VIDEO" ],
+            "description": "must be one of the followed: PHOTO or VIDEO",
+            "required": True
+         },    
+
+"owner": {
+           "bsonType": "object",
+           "properties": {
+              "id_page_owner": {
+                 "bsonType": "string",
+                 "description": "must be a string and one of the object is rquired",
+                  "required": True
+           },
+               "id_person_owner": {
+                   "bsonType": "string",
+                   "description": "must be a string and is required",
+                   "required": True
+               }
+           }
+     },
+    
+    "id_comments": {
+        "type": "array",
+        "description": "must be an id from string format"
+    },
+
+     "created_at": {
+           "type": "date",
+           "description": "must be a date and is required",
+         "required": True
+         }
+
+}
+
+validator = {'$jsonSchema': {'bsonType': 'object', 'properties': {}}}
+required: ["local_path", "category", "owner", "created_at"]
+
+db.create_collection("Medias")
