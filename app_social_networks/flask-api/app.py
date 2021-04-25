@@ -86,8 +86,7 @@ class FriendsList(MethodResource, Resource):
         
         db = get_db()
         result = db.read_transaction(get_friends, id)
-        for record in result:
-            app.logger.error(serialize_person(record['person']))
+        
         return {'friends':[serialize_person(record['person']) for record in result]}
 
 
@@ -113,7 +112,7 @@ class RecommendedFriends(MethodResource, Resource):
             if(not(friend['person'].get('id') in list_friends_id)):
                 if(not(friend in list_recommended_friends_corrected)):
                     list_recommended_friends_corrected.append(friend)
-        app.logger.error(list_recommended_friends_corrected)      
+        #app.logger.error(list_recommended_friends_corrected)      
         return {'friends':[serialize_person(record['person']) for record in list_recommended_friends_corrected]}
 
 class PostsFromPage(MethodResource, Resource):
@@ -132,8 +131,7 @@ class PostsFromPage(MethodResource, Resource):
                 ''', {'page_id': page_id}
             ))
         result = db.read_transaction(get_posts, id)
-        for record in result:
-            app.logger.error("POST")
+        
         return {'posts':[serialize_post(record['post']) for record in result]},200
 
 class PostsFromFriendsAndPage(MethodResource, Resource):
@@ -153,7 +151,7 @@ class PostsFromFriendsAndPage(MethodResource, Resource):
                 ''', {'person_id': person_id}
             ))
         result = db.read_transaction(get_posts, id)
-        app.logger.error(result)
+        #app.logger.error(result)
         return {'posts':[serialize_post(record['post']) for record in result]},200
 
 
@@ -173,8 +171,7 @@ class Messages(MethodResource, Resource):
                 ''', {'person_id': person_id}
             ))
         result = db.read_transaction(get_messages, id)
-        for record in result:
-            app.logger.error("MESSAGE")
+        
         return {'messages':[serialize_message(record['message']) for record in result]},200
 
 class Photos(MethodResource, Resource):
@@ -194,8 +191,7 @@ class Photos(MethodResource, Resource):
                 ''', {'person_id': person_id}
             ))
         result = db.read_transaction(get_photos, id)
-        for record in result:
-            app.logger.error("record")
+        
         return {'medias':[serialize_media(record['media']) for record in result]},200
 
 class Register(MethodResource, Resource):
@@ -275,7 +271,7 @@ class Login(MethodResource, Resource):
     @marshal_with(TokenResponseSchema)  # marshalling
     def post(self, **kwargs):
         data = request.get_json()
-        app.logger.error('LOGIN DEBUG')
+        #app.logger.error('LOGIN DEBUG')
         email = kwargs.get('username')
         password = kwargs.get('password')
         logger.debug('LOGIN EMAIL: '+email)

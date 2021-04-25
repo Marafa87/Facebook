@@ -163,7 +163,9 @@ class PostsFromPageMG(MethodResource, Resource):
                         'foreignField': 'owner.id_page_owner', 
                         'as': 'posts',
                     }
-                }, {
+                }, 
+                { "$sort": { "created_at": -1 } },
+                {
                     "$limit":20
                 }
               , 
@@ -191,6 +193,7 @@ class PostsFromFriendsAndPageMG(MethodResource, Resource):
                         "owner.id_person_owner":id_friend
                         },
                 }, 
+                { "$sort": { "created_at": -1 } },
                 {
                     "$limit":20
                 }
@@ -247,6 +250,7 @@ class PhotosMG(MethodResource, Resource):
                     'owner.id_person_owner': id,
                     }
                 },
+                { "$sort": { "created_at": -1 } },
                 {
                     "$limit":20
                 }
