@@ -1,8 +1,18 @@
-CREATE (adoubiacho:Person {id:'dc08c867-c436-436f-a9a1-71929d955e7c',surname:'Acho',firstname:'Adoubi',email:'adoubi.acho@gmail.com',phone_number:'06 77 77 88 88',date_of_birth:'01/01/1850',password:'password',created_at:'03/04/2021'})
-CREATE (nathfons:Person {id:'f64c47b2-b32d-41a3-9bc6-57f68db7ac0a',surname:'Fons',firstname:'Nathalie',email:'nath.fons@gmail.com',phone_number:'06 88 88 77 77',date_of_birth:'01/01/1980',password:'password',created_at:'03/04/2021'})
-CREATE (munirahalafaleq:Person {id:'63f418c7-841a-4ca0-a6bc-558c15eebc2f',surname:'Alafaleq',firstname:'Munirah',email:'muni.alafaleq@gmail.com',phone_number:'06 87 87 57 57',date_of_birth:'01/01/1990',password:'password',created_at:'03/04/2021'})
-CREATE (alimarafa:Person {id:'53e87a93-5d40-4229-9721-9da11f098c37',surname:'marafa',firstname:'ali',email:'ali.marafa@gmail.com',phone_number:'07 23 77 88 88',date_of_birth:'02/01/1940',password:'password',created_at:'03/04/2021'})
-CREATE (joeldupont:Person {id:'dfeefcdf-aec7-403a-9471-eb802048efd2',surname:'Dupont',firstname:'Joel',email:'joel.dupontq@gmail.com',phone_number:'06 87 87 57 57',date_of_birth:'01/01/1992',password:'password',created_at:'03/04/2021'})
+CREATE (adoubiacho:Person {id:'dc08c867-c436-436f-a9a1-71929d955e7c',surname:'Acho',firstname:'Adoubi',email:'adoubi.acho@gmail.com',phone_number:'06 77 77 88 88',date_of_birth:'01/01/1850',password:'password',created_at:'03/04/2021',api_key:''})
+CREATE (nathfons:Person {id:'f64c47b2-b32d-41a3-9bc6-57f68db7ac0a',surname:'Fons',firstname:'Nathalie',email:'nath.fons@gmail.com',phone_number:'06 88 88 77 77',date_of_birth:'01/01/1980',password:'password',created_at:'03/04/2021',api_key:''})
+CREATE (munirahalafaleq:Person {id:'63f418c7-841a-4ca0-a6bc-558c15eebc2f',surname:'Alafaleq',firstname:'Munirah',email:'muni.alafaleq@gmail.com',phone_number:'06 87 87 57 57',date_of_birth:'01/01/1990',password:'password',created_at:'03/04/2021',api_key:''})
+CREATE (alimarafa:Person {id:'53e87a93-5d40-4229-9721-9da11f098c37',surname:'marafa',firstname:'ali',email:'ali.marafa@gmail.com',phone_number:'07 23 77 88 88',date_of_birth:'02/01/1940',password:'password',created_at:'03/04/2021',api_key:''})
+CREATE (joeldupont:Person {id:'dfeefcdf-aec7-403a-9471-eb802048efd2',surname:'Dupont',firstname:'Joel',email:'joel.dupont@gmail.com',phone_number:'06 87 87 57 57',date_of_birth:'01/01/1992',password:'password',created_at:'03/04/2021',api_key:''})
+
+CREATE (marielaravel:Person {id:'bb54b6cc-ea74-4783-ac48-4057c6bec219',surname:'Laravel',firstname:'Marie',email:'marie.laravel@gmail.com',phone_number:'06 87 87 57 59',date_of_birth:'01/01/1992',password:'password',created_at:'03/04/2021',api_key:''})
+CREATE (julieLulu:Person {id:'3db5cf19-44d9-4258-84e4-c5ff61a4d967',surname:'Lulu',firstname:'Julie',email:'julie.lulu@gmail.com',phone_number:'06 87 87 57 60',date_of_birth:'01/01/1993',password:'password',created_at:'03/04/2021',api_key:''})
+CREATE (noeldumas:Person {id:'8a58a85f-feea-4abd-b39b-f017d3636e0b',surname:'Dumas',firstname:'Noel',email:'noel.dumas@gmail.com',phone_number:'06 87 87 57 61',date_of_birth:'01/02/1992',password:'password',created_at:'03/04/2021',api_key:''})
+CREATE (anniedupont:Person {id:'703ba587-664b-4c10-962a-07e319698349',surname:'Dupont',firstname:'Annie',email:'annie.dupont@gmail.com',phone_number:'06 87 87 57 62',date_of_birth:'01/03/1992',password:'password',created_at:'03/04/2021',api_key:''})
+CREATE (marcjacob:Person {id:'96d29891-28c8-4be2-9c2e-693f00bb18a6',surname:'Jacob',firstname:'Marc',email:'marc.jacob@gmail.com',phone_number:'06 87 87 57 63',date_of_birth:'01/04/1992',password:'password',created_at:'03/04/2021',api_key:''})
+CREATE (rosedupin:Person {id:'24a86157-8b26-49e3-886a-226d5248da94',surname:'Dupin',firstname:'Rose',email:'rose.dupin@gmail.com',phone_number:'06 87 87 57 64',date_of_birth:'01/05/1992',password:'password',created_at:'03/04/2021',api_key:''})
+CREATE (jasminalafaleq:Person {id:'f13df360-4b96-42bb-af0e-0206e40a41da',surname:'Lafaleq',firstname:'Jasmina',email:'jasmina.lafaleq@gmail.com',phone_number:'06 87 87 57 65',date_of_birth:'01/06/1993',password:'password',created_at:'03/04/2021',api_key:''})
+
+
 
 
 CREATE (profileadoubi:Media{id:'1801abc1-89c8-41f3-bc01-92392f682f1f',local_path:'./img/profile_1801abc1-89c8-41f3-bc01-92392f682f1f.jpg',category:'PHOTO',created_at:'02/04/2021'})
@@ -28,12 +38,22 @@ CREATE (joeldupont)-[:FRIEND_REQUEST {created_at:'01/04/2021',status:'PENDING'}]
 CREATE (alimarafa)-[:FRIEND_REQUEST {created_at:'01/04/2021',status:'PENDING'}]->(joeldupont)
 
 
+CREATE (adoubiacho)-[:FRIEND_REQUEST {created_at:'01/04/2021',status:'ACCEPTED'}]->(marielaravel)
+CREATE (adoubiacho)-[:FRIEND_REQUEST {created_at:'01/04/2021',status:'ACCEPTED'}]->(julieLulu)
+CREATE (noeldumas)-[:FRIEND_REQUEST {created_at:'01/04/2021',status:'ACCEPTED'}]->(adoubiacho)
+CREATE (anniedupont)-[:FRIEND_REQUEST {created_at:'01/04/2021',status:'ACCEPTED'}]->(alimarafa)
+CREATE (alimarafa)-[:FRIEND_REQUEST {created_at:'01/04/2021',status:'ACCEPTED'}]->(marcjacob)
+CREATE (rosedupin)-[:FRIEND_REQUEST {created_at:'01/04/2021',status:'ACCEPTED'}]->(munirahalafaleq)
+CREATE (anniedupont)-[:FRIEND_REQUEST {created_at:'01/04/2021',status:'ACCEPTED'}]->(joeldupont)
+CREATE (alimarafa)-[:FRIEND_REQUEST {created_at:'01/04/2021',status:'ACCEPTED'}]->(jasminalafaleq)
+
+
 CREATE(maPageCulturelle:Page {id:'bdd271e1-8920-4e12-928a-fdc11f6d9813',name_page:' RDVs Culturels',about:'blablablablablablablablablablabla',url_website:'https://mysuperpage.com',type:'READING_PUBLIC',created_at:'03/04/2021'})
 CREATE (munirahalafaleq)-[:OWNS_PAGE]->(maPageCulturelle)
 CREATE (nathfons)-[:FOLLOWS_PAGE]->(maPageCulturelle)
 
 CREATE (maPageCulturelle)-[:HAS_PROFILE_PICTURE]->(profilemapageculturelle)
-CREATE (maPageCulturelle)-[:HAS_BACKGROUND_PICTURE]->(backgroundmapageculturellei)
+CREATE (maPageCulturelle)-[:HAS_BACKGROUND_PICTURE]->(backgroundmapageculturelle)
 CREATE (maPageCulturelle)-[:OWNS]->(photo1mapageculturelle)
 
 CREATE(mynews:Post {id:'bdd271e1-8920-4e12-928a-fdc11f6d9813',type:'POST_ON_PAGE_WALL',html_content:'<!DOCTYPE html><html><body><h1>My First Heading</h1><p>My first paragraph.</p><img src="https://www.w3schools.com/images/lamp.jpg" alt="Lamp" width="32" height="32"></body></html>',created_at:'03/04/2021'})
@@ -106,8 +126,11 @@ CREATE(bravo:Message {id:'bf0c0243-1ae4-4fa9-a6e1-2298f19fb629',html_content:'<!
 CREATE(rdv:Message {id:'cce13ed6-2e78-4311-a375-d01eb9f325db',html_content:'<!DOCTYPE html><html><body><h1>Hello!</h1><p>On se prend un caf\' demain?</p><img src="https://www.w3schools.com/images/lamp.jpg" alt="Lamp" width="32" height="32"></body></html>',created_at:'05/04/2021'})
 
 CREATE(rdv2:Message {id:'41ad353a-5323-4850-952b-57f11507f4d8',html_content:'<!DOCTYPE html><html><body><h1>Hello!</h1><p>Ok pr un caf\' !</p><img src="https://www.w3schools.com/images/lamp.jpg" alt="Lamp" width="32" height="32"></body></html>',created_at:'05/04/2021'})
-CREATE(rdv3:Message {id:'057b1411-842c-4816-ba2b-8831f931cbdf',html_content:'<!DOCTYPE html><html><body><h1>Hello!</h1><p>Ok pr un caf\' !</p><img src="https://www.w3schools.com/images/lamp.jpg" alt="Lamp" width="32" height="32"></body></html>',created_at:'05/04/2021'})
-CREATE(rdv4:Message {id:'de262385-1a40-4d3a-9003-17563e69a6b8',html_content:'<!DOCTYPE html><html><body><h1>Hello!</h1><p>Ok pr un caf\' !</p><img src="https://www.w3schools.com/images/lamp.jpg" alt="Lamp" width="32" height="32"></body></html>',created_at:'05/04/2021'})
+CREATE(rdv3:Message {id:'5e7e9f2e-e852-408b-9201-fb2d875fcd1d',html_content:'<!DOCTYPE html><html><body><h1>Hello!</h1><p>Ok pr un caf\' !</p><img src="https://www.w3schools.com/images/lamp.jpg" alt="Lamp" width="32" height="32"></body></html>',created_at:'05/04/2021'})
+CREATE(rdv4:Message {id:'885ddb99-4685-438c-8668-c06fe30a5cf8',html_content:'<!DOCTYPE html><html><body><h1>Hello!</h1><p>Ok pr un caf\' !</p><img src="https://www.w3schools.com/images/lamp.jpg" alt="Lamp" width="32" height="32"></body></html>',created_at:'05/04/2021'})
+CREATE(rdv5:Message {id:'c12e0e51-18b0-4e01-94b2-0459b3268788',html_content:'<!DOCTYPE html><html><body><h1>Hello!</h1><p>Ok pr un caf\' !</p><img src="https://www.w3schools.com/images/lamp.jpg" alt="Lamp" width="32" height="32"></body></html>',created_at:'05/04/2021'})
+CREATE(rdv6:Message {id:'d61e2ab2-e90d-4bd5-9cb4-03dfb75dd242',html_content:'<!DOCTYPE html><html><body><h1>Hello!</h1><p>Ok pr un caf\' !</p><img src="https://www.w3schools.com/images/lamp.jpg" alt="Lamp" width="32" height="32"></body></html>',created_at:'05/04/2021'})
+CREATE(rdv7:Message {id:'beeaaddf-e5b2-4f98-b4a0-fa4d5b300681',html_content:'<!DOCTYPE html><html><body><h1>Hello!</h1><p>Ok pr un caf\' !</p><img src="https://www.w3schools.com/images/lamp.jpg" alt="Lamp" width="32" height="32"></body></html>',created_at:'05/04/2021'})
 
 
 CREATE (adoubiacho)-[:SENT_MESSAGE]->(message)
@@ -121,7 +144,10 @@ CREATE (rdv)-[:RECIPIENT]->(adoubiacho)
 CREATE (rdv)-[:RECIPIENT]->(munirahalafaleq)
 CREATE (rdv2)-[:REPLIED{sender:'adoubiacho'}]->(rdv)
 CREATE (rdv3)-[:REPLIED{sender:'munirahalafaleq'}]->(rdv2)
-CREATE (rdv4)-[:REPLIED{sender:'munirahalafaleq'}]->(rdv3)
+CREATE (rdv4)-[:REPLIED{sender:'adoubiacho'}]->(rdv3)
+CREATE (rdv5)-[:REPLIED{sender:'nathfons'}]->(rdv4)
+CREATE (rdv6)-[:REPLIED{sender:'munirahalafaleq'}]->(rdv5)
+CREATE (rdv7)-[:REPLIED{sender:'alimarafa'}]->(rdv6)
 
 CREATE (munirahalafaleq)-[:OWNS]->(photo)
 CREATE (alimarafa)-[:OWNS]->(video)
