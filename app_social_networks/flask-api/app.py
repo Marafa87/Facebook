@@ -232,11 +232,11 @@ class Register(MethodResource, Resource):
         result = db.read_transaction(get_user_by_email, email)
         if result and result.get('person'):
             return {'username': 'username already in use'}, 400
-
-        def create_user(tx, email,surname,firstname,date_of_birth,phone_number, password):
+        now = (datetime.now()).strftime('%Y/%m/%d')
+        def create_user(tx, email,surname,firstname,date_of_birth,now,phone_number, password):
             return tx.run(
                 '''
-                CREATE (person:Person {id: $id, email: $email, password: $password, api_key: $api_key}) RETURN person
+                CREATE (person:Person {id: $id,created_at: $now, email: $email, surname: $surname, firstname: $firstname, phone_number: $phone_number, date_of_birth: $date_of_birth, password: $password, api_key: $api_key}) RETURN person
                 ''',
                 {
                     'id': str(uuid.uuid4()),
@@ -247,14 +247,14 @@ class Register(MethodResource, Resource):
                     'phone_number': phone_number,
                    # 'password': hash_password(email, password),
                    'password': password,
-                    'created_at':datetime.utcnow(),
+                    'now':now,
                     'api_key': binascii.hexlify(os.urandom(20)).decode()
                 }
             ).single()
 
-        results = db.write_transaction(create_user, email,surname,firstname,date_of_birth,phone_number, password)
+        results = db.write_transaction(create_user, email,surname,firstname,date_of_birth,now,phone_number, password)
         user = results['person']
-        return results, 201
+        return user, 201
 
 
 class StandardResponseSchema(Schema):
